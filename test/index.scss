@@ -1,2 +1,32 @@
-@import "../node_modules/sass-true/sass/true";
-@debug 'Tests yet to be made';
+// Import Utils
+@import '../node_modules/@henris/default/index.scss';
+@import '../node_modules/@henris/utils/index.scss';
+@import '../src/functions/index.scss';
+
+// Import Ssst test suite
+@import '../node_modules/ssst/index.scss';
+
+@include test(
+	'color() function',
+	'Return a color based on the variable given'
+) {
+	@include is-equal(color(Red), #eb0f33);
+}
+@include test(
+	'color() function',
+	'Return a color with opacity based on the variable given'
+) {
+	@include is-equal(color(Red, 0.5), rgba(235, 15, 51, 0.5));
+}
+@include test(
+	'color() function',
+	'Return a color with opacity based on the variable given'
+) {
+	@include is-equal(color(Red, 0.5), rgba(235, 15, 51, 0.5));
+}
+@include test(
+	'color() function',
+	'Return the value for Red, because FireRed doesnt exist'
+) {
+	@include is-equal(color(FireRed), #eb0f33);
+}

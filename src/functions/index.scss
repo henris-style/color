@@ -2,7 +2,6 @@
 //    Define the default color set
 // ------------------------------------
 
-
 $default-color-set: $color-default !default;
 
 // ------------------------------------------------------------------------
@@ -124,6 +123,42 @@ $default-color-set: $color-default !default;
 	$default-color-set: define-custom-colors($default-color-set);
 }
 
+// -----------------------------------------
+//   Return a normal color
+// ---------------------------------------
+
+@function to-color($value) {
+	$new-value: null;
+	// Check if the color exists in another way in the colorset.
+	@each $color-name, $color-value in $default-color-set {
+		// Check if the value given exists in any predefined colors.
+		$str-value: '#{$value}';
+		$str-color: to-string-color($color-name);
+		
+		// First make sure the color is not in the colorset. If so, just return the right color back. Also makes it possible to 
+		// Fix uppercase/lowercase mistakes. Will still give a warning that the color doesn't exist, but will return the right color.
+		@if to-lower-case($str-color) == to-lower-case($str-value) {
+			$new-value: $color-value;
+		} 
+		
+		// Check if the requested colorname exists in a color name in the existing colorset
+		@else if str-contains(to-lower-case($str-value), to-lower-case($str-color)) {
+			$new-value: rgba(red($color-value),green($color-value),blue($color-value),1);
+		} 
+		
+		// Check if the requested names in the colorset exists in a requested color name
+		@else if str-contains(to-lower-case($str-color), to-lower-case($str-value)) {
+			$new-value: $color-value;
+		}
+	}
+	@if $new-value == null{
+		$new-value: '#{$value}';
+	}
+	
+	// Return a closer color.
+	@return to-string($new-value);
+}
+
 // --------------------------------------------------------------------------
 //    The main color function, get the color from  the current colorset
 // ------------------------------------------------------------------------
@@ -157,7 +192,7 @@ $default-color-set: $color-default !default;
 
 	@else {
 		@warn "[function color] #{$value} (#{type-of($value)}) does not exist in the current colorset.";
-		@return to-color(#000000);
+		@return to-color($value);
 	}
 }
 
@@ -200,6 +235,9 @@ $default-color-set: $color-default !default;
 
 	@else if str-slice('#{$value}', 1, 3) == 'rgb' {
 		@return rgba(red($value), green($value), blue($value), $opacity);
+	}
+	@else {
+		@return '#{$value}';
 	}
 }
 
@@ -400,8 +438,8 @@ $colors: $default-color-set;
 	$color: to-defined-color($color, 'color');
 
 	// Apply the darkness to the color like the original function also does.
-	
-	@if type-of($color) == "color"{
+
+	@if type-of($color) == 'color' {
 		$darkness: lightness($color) - $amount;
 		@if $darkness < 0 {
 			$darkness: 0%;
@@ -410,12 +448,10 @@ $colors: $default-color-set;
 		}
 		// Return the new darkened color.
 		@return hsl(hue($color), saturation($color), $darkness);
-	} 
-	@else {
-		@warn "#{$color} is not a color";	
+	} @else {
+		@warn "#{$color} is not a color";
 		@return $color;
 	}
-
 }
 
 @function lighten($color, $amount) {
@@ -448,4 +484,3 @@ $colors: $default-color-set;
 @function native-rgba($string, $opacity) {
 	@return #{'rgba(#{$string}, #{$opacity})'};
 }
-
