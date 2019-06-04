@@ -28,5 +28,5 @@
 	'color() function',
 	'Return the value for Red, because FireRed doesnt exist'
 ) {
-	@include is-equal(color(FireRed), #eb0f33);
+	@include is-equal(#{color(FireRed)}, '#eb0f33');
 }

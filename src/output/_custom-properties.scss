@@ -3,7 +3,7 @@
 //	current colorset. 										  */
 // --------------------------------------------------------- */
 @mixin henris-custom-properties-color(){
-	@each $color-name, $color-value in $default-color-set {
+	@each $color-name, $color-value in $color-default {
 		$variable: '--color-#{to-lower-case($color-name)}';
 		//hex
 		#{$variable}: $color-value;
