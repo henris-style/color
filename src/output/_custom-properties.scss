@@ -9,6 +9,10 @@
 			$variable: '--color-#{to-lower-case($color-name)}';
 			//hex
 			#{$variable}: $color-value;
+			//hsl
+			#{$variable}-hue: hue($color-value);
+			#{$variable}-saturation: saturation($color-value);
+			#{$variable}-lightness: lightness($color-value);
 			//rgb
 			#{$variable}-r: red($color-value);
 			#{$variable}-g: green($color-value);
