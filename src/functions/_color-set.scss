@@ -484,3 +484,26 @@ $colors: $default-color-set;
 @function native-rgba($string, $opacity) {
 	@return #{'rgba(#{$string}, #{$opacity})'};
 }
+
+// ----------------------------------------------------------------------
+//    Add a color to a colorset, can be usefull when your full colorset 
+//    is coming from an external source. 
+// -------------------------------------------------------------------
+
+
+@function add-color($color-set, $color){
+	
+	// args: Existing colorset, new color; ex; add-color($my-color-set, ('MyColor', #123456));
+	
+  $current-value: false;
+  $i: 0;
+  
+  $index:  key-index($color-set, nth($color,1));
+  @if $index > -1{
+    $color-set: remove-nth($color-set, $index);
+    $color-set: insert-nth($color-set,$index,$color);
+  } @else {
+    $color-set: map-set($color-set, nth($color,1),nth($color,2));
+  }
+  @return $color-set;
+}
