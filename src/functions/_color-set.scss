@@ -504,7 +504,7 @@ $colors: $default-color-set;
 	$color-name: null;
 	$color-value: null;
 	$new-color: ();
-	
+
 	@if type-of($color) == 'list' {
 		$color-name: nth($color, 1);
 		$color-value: nth($color, 2);
@@ -516,11 +516,7 @@ $colors: $default-color-set;
 	}
 
 	$index: key-index($color-set, $color-name);
-	@if $index > -1 {
-		$color-set: remove-nth($color-set, $index);
-		$color-set: insert-nth($color-set, $index, $new-color);
-	} @else {
-		$color-set: map-set($color-set, $color-name, $color-value);
-	}
+	$color-set: map-set($color-set, $color-name, $color-value);
+
 	@return $color-set;
 }

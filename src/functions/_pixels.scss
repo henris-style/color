@@ -56,12 +56,12 @@
 
 @mixin pixels($val,$pixel-colors, $size) {
   content: "";
-  background-image: pixels($val, "image", $pixel-colors, $size);
-  background-position: pixels($val, "position", $pixel-colors, $size);
-  background-size: pixels($val, "size", $pixel-colors, $size);
   width: pixels($val, "width", $pixel-colors, $size);
   height: pixels($val, "height", $pixel-colors, $size);
+  background-image: pixels($val, "image", $pixel-colors, $size);
   background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+  background-position: pixels($val, "position", $pixel-colors, $size);
+  background-size: pixels($val, "size", $pixel-colors, $size);
 }
 
 // // Example
