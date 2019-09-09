@@ -31,6 +31,13 @@
 	@include is-equal(#{color(FireRed)}, '#eb0f33');
 }
 
+@include test(
+	'color() function',
+	'Return the value for Red, eventhough it has a underscore in the value'
+) {
+	@include is-equal(#{color(_Red)}, '#eb0f33');
+}
+
 $test-color-set: (
 	'Red': red,
 	'Blue': blue

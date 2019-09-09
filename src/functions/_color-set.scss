@@ -272,7 +272,9 @@ $default-color-set: $color-default !default;
 
 @function color-exist($value, $colorset: $default-color-set) {
 	// Return true if the color exists in the current colorset; Or false when not.
-	@if map-get($colorset, $value) {
+	@if map-get($colorset, $value) or
+		map-get($colorset, str-slice($value, 2, str-length($value)))
+	{
 		@return true;
 	} @else {
 		@return false;
@@ -286,8 +288,16 @@ $default-color-set: $color-default !default;
 @function get-color($value, $colorset: $default-color-set) {
 	// Return the color if the color exists in the current colorset; Or nothing + a warning when not.
 
+	$_: false;
+	@if str-index($value, '_') == 1 {
+		$_: true;
+	}
 	@if color-exist($value, $colorset) {
-		@return map-get($colorset, $value);
+		@if $_ {
+			@return map-get($colorset, str-slice($value, 2, str-length($value)));
+		} @else {
+			@return map-get($colorset, $value);
+		}
 	} @else {
 		@warn "[function get-color]#{$value} does not exist in the current colorset";
 		@return '';
