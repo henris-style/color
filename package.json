@@ -1,6 +1,6 @@
 {
   "name": "@henris/color",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Color module for Henri's",
   "main": "index.scss",
   "scripts": {
