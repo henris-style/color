@@ -41,6 +41,6 @@
   },
   "dependencies": {
     "@henris/utils": "^0.0.14",
-    "@henris/default": "0.0.1"
+    "@henris/default": "0.0.2"
   }
 }
