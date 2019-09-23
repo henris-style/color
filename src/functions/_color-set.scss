@@ -176,10 +176,13 @@ $default-color-set: $color-default !default;
 		@warn "No color given";
 		@return null;
 	}
+	// By Default add an underscores to the String so it will stay a string for sure. 
+	$value: "_#{$value}";
 
 	// check Value type and convert the color always to a string.
 
 	$value-type: type-of($value);
+	
 
 	// When the type is 'color' we need to either convert color to a string
 	// or directly pass it back when its an actual color
@@ -188,7 +191,7 @@ $default-color-set: $color-default !default;
 	} @else {
 		@return to-string-color($value, $opacity);
 	}
-
+	
 	// Check if the color exist in the current colorset
 
 	@if color-exist('#{$value}', $colorset) {
