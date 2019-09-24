@@ -1,6 +1,6 @@
 {
   "name": "@henris/color",
-  "version": "0.1.2-beta",
+  "version": "0.1.2-beta-2",
   "description": "Color module for Henri's",
   "main": "index.scss",
   "scripts": {
@@ -40,7 +40,7 @@
     "stylelint-order": "^3.0.0"
   },
   "dependencies": {
-    "@henris/utils": "^0.0.14",
-    "@henris/default": "0.0.1"
+    "@henris/default": "0.0.1",
+    "@henris/utils": "0.0.14"
   }
 }

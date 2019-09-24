@@ -170,19 +170,40 @@ $default-color-set: $color-default !default;
 //    The main color function, get the color from  the current colorset
 // ------------------------------------------------------------------------
 
-@function color($value: null, $opacity: 1, $colorset: $default-color-set) {
+// @function color($value: null, $opacity: 1, $colorset: $default-color-set) {
+@function color($args...) {
+	$value: '';
+	$opacity: 1;
+	$colorset: $default-color-set; 
+		
+	@if length($args) > 0 and type-of(nth($args,1)) == 'string' or type-of(nth($args,1)) == 'color'{
+		$value: '#{nth($args,1)}';
+	} @else {
+		@warn "[function color] #{nth($args,1)} is not a color"; 
+	}
+	
+	@if length($args) > 1 and nth($args,2) and type-of(nth($args,2)) == 'number'{
+		@if nth($args,2) > 1 or nth($args,2) < 0{
+			@warn "[function color] #{nth($args,1)} is not a valid number for opacity";
+		}
+		@else {
+			$opacity: nth($args,2);
+		}
+	}
+	// @else if nth($args,2) and type-of(nth($args,2)) == 'list'{
+	// 	$colorset: nth($args,2);
+	// }
+	
+	
 	// Check if value atleast is set.
 	@if $value == null {
 		@warn "No color given";
 		@return null;
 	}
-	// By Default add an underscores to the String so it will stay a string for sure. 
-	$value: "_#{$value}";
+	// By Default add an underscores to the String so it will stay a string for sure.
 
-	// check Value type and convert the color always to a string.
-
-	$value-type: type-of($value);
-	
+	// // check Value type and convert the color always to a string.
+	// $value-type: type-of($value);
 
 	// When the type is 'color' we need to either convert color to a string
 	// or directly pass it back when its an actual color
@@ -191,7 +212,7 @@ $default-color-set: $color-default !default;
 	} @else {
 		@return to-string-color($value, $opacity);
 	}
-	
+
 	// Check if the color exist in the current colorset
 
 	@if color-exist('#{$value}', $colorset) {
@@ -223,8 +244,12 @@ $default-color-set: $color-default !default;
 		@return false;
 	}
 
-	// Else, just return the string and make the best of it.
+	// Check if the color type is color.
+	@else if type-of($value) == 'color' {
+		@return unquote('_#{$value}');
+	}
 
+	// Else, just return the string and make the best of it.
 	@else {
 		@return true;
 	}
