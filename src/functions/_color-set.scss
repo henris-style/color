@@ -402,6 +402,7 @@ $default-color-set: $color-default !default;
 // ----------------------------------------------------
 
 @function contra($value, $opacity: 1, $colors: null, $contrast: 57.5) {
+	$contra-color: white;
 	$color: black;
 	$bw: ();
 	// Define dark and light colors to return.
@@ -428,9 +429,16 @@ $default-color-set: $color-default !default;
 	$brightness: color-brightness($color, false);
 
 	@if $brightness > $contrast {
-		@return nth($bw, 1);
+		$contra-color: nth($bw, 1);
 	} @else {
-		@return nth($bw, 2);
+		$contra-color: nth($bw, 2);
+	}
+	
+	// Make really sure you pass back a color, or otherwise unquote the color. 
+	@if type-of($contra-color) != 'color'{
+		@return unquote($contra-color);
+	} @else {
+		@return $contra-color;
 	}
 }
 
